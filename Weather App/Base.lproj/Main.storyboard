@@ -14,25 +14,112 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="76" id="gFi-bQ-me8">
-                                <rect key="frame" x="0.0" y="28" width="414" height="76"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gFi-bQ-me8" id="Ki9-bZ-9d8">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="C9c-7k-WoI">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="73"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="9hp-cD-u3R">
+                                    <rect key="frame" x="10" y="15" width="75.5" height="30"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HN4-Gn-ZCh">
+                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                            <state key="normal" title="°C">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="cDegreeChoosen:" destination="X5t-Z1-bH0" eventType="touchUpInside" id="uaJ-J4-G9I"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dfb-Px-bpx">
+                                            <rect key="frame" x="35" y="0.0" width="5.5" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xl0-mY-dq6" userLabel="°F">
+                                            <rect key="frame" x="45.5" y="0.0" width="30" height="30"/>
+                                            <state key="normal" title="°F">
+                                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="cDegreeChoosen:" destination="X5t-Z1-bH0" eventType="touchUpInside" id="UoV-wK-3gN"/>
+                                                <action selector="fDegreeChoosen:" destination="X5t-Z1-bH0" eventType="touchUpInside" id="fdG-l0-PsL"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykb-j1-gFK">
+                                    <rect key="frame" x="384" y="15" width="20" height="22"/>
+                                    <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                    <state key="normal" image="plus.circle" catalog="system"/>
+                                    <connections>
+                                        <segue destination="aty-Za-0fq" kind="show" id="Njk-DS-SmT"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="ykb-j1-gFK" firstAttribute="top" secondItem="C9c-7k-WoI" secondAttribute="top" constant="15" id="H58-IR-3cN"/>
+                                <constraint firstItem="9hp-cD-u3R" firstAttribute="leading" secondItem="C9c-7k-WoI" secondAttribute="leading" constant="10" id="ecg-ZX-KGr"/>
+                                <constraint firstAttribute="trailing" secondItem="ykb-j1-gFK" secondAttribute="trailing" constant="10" id="g62-Wp-KLe"/>
+                                <constraint firstItem="9hp-cD-u3R" firstAttribute="top" secondItem="C9c-7k-WoI" secondAttribute="top" constant="15" id="oH2-bF-xIz"/>
+                            </constraints>
+                        </view>
                         <connections>
                             <outlet property="dataSource" destination="X5t-Z1-bH0" id="o3T-QK-Tim"/>
                             <outlet property="delegate" destination="X5t-Z1-bH0" id="REK-4W-kcg"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="cButton" destination="HN4-Gn-ZCh" id="jD6-h5-ErE"/>
+                        <outlet property="fButton" destination="Xl0-mY-dq6" id="eV4-nZ-tJL"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FkE-p2-Zty" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="18.840579710144929" y="83.705357142857139"/>
         </scene>
+        <!--Searching Table View Controller-->
+        <scene sceneID="A5x-6o-cj7">
+            <objects>
+                <tableViewController id="aty-Za-0fq" customClass="SearchingTableViewController" customModule="Weather_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4Fp-zf-q8H">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="20x-lk-mx3">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="61"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <searchBar contentMode="redraw" placeholder="Enter city or postcode" translatesAutoresizingMaskIntoConstraints="NO" id="aDn-nf-Xkw">
+                                    <rect key="frame" x="10" y="5" width="394" height="51"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="aDn-nf-Xkw" secondAttribute="bottom" constant="5" id="1Ab-3A-BTq"/>
+                                <constraint firstItem="aDn-nf-Xkw" firstAttribute="leading" secondItem="20x-lk-mx3" secondAttribute="leading" constant="10" id="Vpb-XK-1JJ"/>
+                                <constraint firstItem="aDn-nf-Xkw" firstAttribute="top" secondItem="20x-lk-mx3" secondAttribute="top" constant="5" id="XDA-CC-S6I"/>
+                                <constraint firstAttribute="trailing" secondItem="aDn-nf-Xkw" secondAttribute="trailing" constant="10" id="o3k-hf-5bA"/>
+                            </constraints>
+                        </view>
+                        <connections>
+                            <outlet property="dataSource" destination="aty-Za-0fq" id="LnP-rs-4X5"/>
+                            <outlet property="delegate" destination="aty-Za-0fq" id="kD5-aU-N8A"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="BDR-GC-OTL"/>
+                    <connections>
+                        <outlet property="searchBar" destination="aDn-nf-Xkw" id="ChS-BK-q6V"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HNd-s4-yw2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="915.94202898550736" y="83.705357142857139"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="plus.circle" catalog="system" width="128" height="121"/>
+    </resources>
 </document>

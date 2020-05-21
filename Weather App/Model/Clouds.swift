@@ -7,8 +7,8 @@
 //
 
 import Foundation
-class Clouds {
-    var all: Int
+class Clouds: Decodable {
+     let all: Int
     init(all: Int) {
         self.all = all
     }

@@ -7,18 +7,22 @@
 //
 
 import Foundation
-class Main {
-    var temp: Double
-    var pressure: Int
-    var humidity: Int
-    var temp_min: Double
-    var temp_max: Double
+class Main: Decodable {
+    let temp: Double
+    let pressure, humidity: Int
+    let tempMin, tempMax: Double
+
+    enum CodingKeys: String, CodingKey {
+        case temp, pressure, humidity
+        case tempMin = "temp_min"
+        case tempMax = "temp_max"
+    }
     
     init(temp: Double, pressure: Int, humidity: Int, temp_min: Double,  temp_max: Double) {
         self.temp = temp
         self.pressure = pressure
         self.humidity = humidity
-        self.temp_min = temp_min
-        self.temp_max = temp_max
+        self.tempMin = temp_min
+        self.tempMax = temp_max
     }
 }

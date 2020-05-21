@@ -7,11 +7,10 @@
 //
 
 import Foundation
-class Coord {
-    var lon: Int
-    var lat: Int
+class Coord: Decodable {
+    let lon, lat: Double
     
-    init(lon: Int, lat: Int) {
+    init(lon: Double, lat: Double) {
         self.lon = lon
         self.lat = lat
     }

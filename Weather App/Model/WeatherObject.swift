@@ -8,21 +8,22 @@
 
 import Foundation
 
-class WeatherObject {
-    var base: String
-    var visibility: Int
-    var dt: Int
-    var id: Int
-    var name: String
-    var cod: Int
+class WeatherObject: Decodable{
+    let coord: Coord
+    let weather: [Weather]
+    let base: String
+    let main: Main
+    let visibility: Int
+    let wind: Wind
+    let clouds: Clouds
+    let dt: Int
+    let sys: Sys
+    let timezone, id: Int
+    let name: String
+    let cod: Int
     
-    var coord: Coord
-    var weather: [Weather]
-    var main: Main
-    var clouds: Clouds
-    var sys: Sys
     
-    init(base: String, visibility: Int,  dt: Int, id: Int, name: String, cod: Int, coord: Coord, weather: [Weather], main: Main, clouds: Clouds, sys: Sys) {
+    init(base: String, visibility: Int,  dt: Int, id: Int, name: String, cod: Int, coord: Coord, weather: [Weather], main: Main, clouds: Clouds, sys: Sys, wind: Wind, timezone: Int) {
         self.base = base
         self.visibility = visibility
         self.dt = dt
@@ -35,6 +36,7 @@ class WeatherObject {
         self.main = main
         self.clouds = clouds
         self.sys = sys
-        
+        self.wind = wind
+        self.timezone = timezone
     }
 }

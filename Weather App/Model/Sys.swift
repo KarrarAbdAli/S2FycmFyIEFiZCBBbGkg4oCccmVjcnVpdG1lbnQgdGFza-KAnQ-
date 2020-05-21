@@ -8,18 +8,15 @@
 
 import Foundation
 
-class Sys {
-    var type : Int
-    var id: Int
-    var message: Double
-    var country: String
-    var sunrise: Int
-    var sunset: Int
+class Sys: Decodable {
+    let type, id: Int
+    let country: String
+    let sunrise, sunset: Int
+
     
-    init(type : Int, id: Int,  message: Double, country: String,  sunrise: Int,  sunset: Int) {
+    init(type : Int, id: Int, country: String,  sunrise: Int,  sunset: Int) {
         self.type = type
         self.id = id
-        self.message = message
         self.country = country
         self.sunrise = sunrise
         self.sunset = sunset

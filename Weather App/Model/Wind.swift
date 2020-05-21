@@ -7,9 +7,9 @@
 //
 
 import Foundation
-class Wind{
-    var speed: Double
-    var deg: Int
+class Wind: Decodable{
+    let speed: Double
+    let deg: Int
     init(speed: Double, deg: Int) {
         self.speed = speed
         self.deg = deg

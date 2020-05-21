@@ -30,7 +30,15 @@ class SearchingTableViewController: UITableViewController {
         weatherItems.forEach{ if !cities.contains($0.name) {
             cities.append($0.name)
             }}
-        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.backgroundView = blurEffectView
+        tableView.backgroundColor = .clear
+
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = .white
         
     }
     
@@ -48,6 +56,8 @@ class SearchingTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
+        cell.backgroundColor = .clear
+        cell.textLabel?.textColor = .white
         if isSearching {
             cell.textLabel?.text = searchedArray[indexPath.row]
         } else {

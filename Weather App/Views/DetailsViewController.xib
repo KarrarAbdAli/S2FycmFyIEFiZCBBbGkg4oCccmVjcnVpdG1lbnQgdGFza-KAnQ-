@@ -218,13 +218,22 @@
                                 <action selector="listBackClicked:" destination="-1" eventType="touchUpInside" id="9WT-XF-fwm"/>
                             </connections>
                         </button>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="R5K-Ma-ZgR">
+                            <rect key="frame" x="15" y="2.5" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="WtT-kM-Pq1"/>
+                                <constraint firstAttribute="width" constant="60" id="pnA-sV-5L4"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="TRW-EC-siv" secondAttribute="bottom" constant="5" id="2hr-qL-Gru"/>
                         <constraint firstAttribute="trailing" secondItem="TRW-EC-siv" secondAttribute="trailing" constant="15" id="FdL-LU-xB7"/>
                         <constraint firstAttribute="height" constant="65" id="QF4-ya-yil"/>
+                        <constraint firstItem="R5K-Ma-ZgR" firstAttribute="centerY" secondItem="EZW-S0-ou9" secondAttribute="centerY" id="QOg-Q9-ano"/>
                         <constraint firstItem="TRW-EC-siv" firstAttribute="top" secondItem="EZW-S0-ou9" secondAttribute="top" constant="5" id="fw1-Qz-bfU"/>
+                        <constraint firstItem="R5K-Ma-ZgR" firstAttribute="leading" secondItem="EZW-S0-ou9" secondAttribute="leading" constant="15" id="tkX-rk-8GS"/>
                         <constraint firstItem="TRW-EC-siv" firstAttribute="centerY" secondItem="EZW-S0-ou9" secondAttribute="centerY" id="wA3-gL-byn"/>
                     </constraints>
                 </view>
@@ -251,5 +260,6 @@
     </objects>
     <resources>
         <image name="list.dash" catalog="system" width="128" height="85"/>
+        <image name="logo" width="431" height="184"/>
     </resources>
 </document>

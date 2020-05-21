@@ -55,10 +55,14 @@ class DetailsViewController: UIViewController {
         cityLabel.text = weatherObject.name
         weatherDescriptionLabel.text = weatherObject.weather[0].weatherDescription
         degreeLabel.text = getTempreture(forValue: weatherObject.main.temp)
-        
         windSpeedLabel.text = "\(weatherObject.wind.speed) Km/hr"
-        feelsLikeLabel.text = getTempreture(forValue: weatherObject.main.feelsLike)
-
+        if let feelsLikeTemp = weatherObject.main.feelsLike {
+            feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
+            print(feelsLikeTemp)
+            print(getTempreture(forValue: feelsLikeTemp))
+        } else {
+            feelsLikeLabel.text = getTempreture(forValue: weatherObject.main.temp)
+        }
         pressureLabel.text = "\(weatherObject.main.pressure) hPa"
         humidityLabel.text = "\(weatherObject.main.humidity)%"
         minTempLabel.text = getTempreture(forValue: weatherObject.main.tempMin)

@@ -93,11 +93,11 @@
                             <subviews>
                                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter city or postcode" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aDn-nf-Xkw">
                                     <rect key="frame" x="10" y="5" width="394" height="51"/>
-                                    <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="aDn-nf-Xkw" secondAttribute="bottom" constant="5" id="1Ab-3A-BTq"/>
                                 <constraint firstItem="aDn-nf-Xkw" firstAttribute="leading" secondItem="20x-lk-mx3" secondAttribute="leading" constant="10" id="Vpb-XK-1JJ"/>

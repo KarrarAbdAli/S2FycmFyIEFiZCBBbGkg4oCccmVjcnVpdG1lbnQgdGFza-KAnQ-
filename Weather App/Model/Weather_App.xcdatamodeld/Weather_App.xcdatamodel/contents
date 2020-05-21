@@ -10,7 +10,7 @@
         <relationship name="weatherObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherObjectCD" inverseName="coord" inverseEntity="WeatherObjectCD"/>
     </entity>
     <entity name="MainCD" representedClassName="MainCD" syncable="YES" codeGenerationType="class">
-        <attribute name="feelsLike" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="feelsLike" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="humidity" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="pressure" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="temp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

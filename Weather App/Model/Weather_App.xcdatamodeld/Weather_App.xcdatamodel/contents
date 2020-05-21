@@ -10,6 +10,7 @@
         <relationship name="weatherObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherObjectCD" inverseName="coord" inverseEntity="WeatherObjectCD"/>
     </entity>
     <entity name="MainCD" representedClassName="MainCD" syncable="YES" codeGenerationType="class">
+        <attribute name="feelsLike" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="humidity" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="pressure" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="temp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -20,6 +21,7 @@
     <entity name="SysCD" representedClassName="SysCD" syncable="YES" codeGenerationType="class">
         <attribute name="country" attributeType="String"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="message" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="sunrise" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="sunset" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -39,7 +41,7 @@
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="timezone" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="visibility" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="visibility" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="clouds" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CloudsCD" inverseName="weatherObject" inverseEntity="CloudsCD"/>
         <relationship name="coord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoordCD" inverseName="weatherObject" inverseEntity="CoordCD"/>
         <relationship name="main" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainCD" inverseName="weatherObject" inverseEntity="MainCD"/>
@@ -53,12 +55,12 @@
         <relationship name="weatherObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherObjectCD" inverseName="wind" inverseEntity="WeatherObjectCD"/>
     </entity>
     <elements>
-        <element name="WeatherObjectCD" positionX="-63" positionY="-18" width="128" height="238"/>
-        <element name="WeatherCD" positionX="-54" positionY="45" width="128" height="118"/>
-        <element name="MainCD" positionX="-36" positionY="72" width="128" height="133"/>
-        <element name="WindCD" positionX="-18" positionY="81" width="128" height="88"/>
         <element name="CloudsCD" positionX="0" positionY="90" width="128" height="73"/>
-        <element name="SysCD" positionX="18" positionY="99" width="128" height="133"/>
         <element name="CoordCD" positionX="-18" positionY="81" width="128" height="88"/>
+        <element name="MainCD" positionX="-36" positionY="72" width="128" height="148"/>
+        <element name="SysCD" positionX="18" positionY="99" width="128" height="148"/>
+        <element name="WeatherCD" positionX="-54" positionY="45" width="128" height="118"/>
+        <element name="WeatherObjectCD" positionX="-63" positionY="-18" width="128" height="238"/>
+        <element name="WindCD" positionX="-18" positionY="81" width="128" height="88"/>
     </elements>
 </model>

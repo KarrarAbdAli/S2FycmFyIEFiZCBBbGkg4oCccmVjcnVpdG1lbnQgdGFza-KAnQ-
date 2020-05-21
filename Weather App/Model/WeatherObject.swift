@@ -13,7 +13,7 @@ class WeatherObject: Decodable{
     let weather: [Weather]
     let base: String
     let main: Main
-    let visibility: Int
+    var visibility: Int?
     let wind: Wind
     let clouds: Clouds
     let dt: Int
@@ -23,7 +23,7 @@ class WeatherObject: Decodable{
     let cod: Int
     
     
-    init(base: String, visibility: Int,  dt: Int, id: Int, name: String, cod: Int, coord: Coord, weather: [Weather], main: Main, clouds: Clouds, sys: Sys, wind: Wind, timezone: Int) {
+    init(base: String, visibility: Int?,  dt: Int, id: Int, name: String, cod: Int, coord: Coord, weather: [Weather], main: Main, clouds: Clouds, sys: Sys, wind: Wind, timezone: Int) {
         self.base = base
         self.visibility = visibility
         self.dt = dt

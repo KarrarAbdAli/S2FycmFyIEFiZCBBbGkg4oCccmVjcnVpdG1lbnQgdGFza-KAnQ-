@@ -23,7 +23,6 @@ class MainTableViewController: UITableViewController {
                 fButton.setTitleColor(.darkGray, for: .normal)
                 tableView.reloadData()
                 
-                
             } else {
                 fButton.setTitleColor(.white, for: .normal)
                 cButton.setTitleColor(.darkGray, for: .normal)
@@ -60,9 +59,11 @@ class MainTableViewController: UITableViewController {
             
         }
         
+        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? SearchingTableViewController
+        vc?.delegate = self
         vc?.weatherItems = self.weatherItems
     }
     
@@ -89,11 +90,13 @@ class MainTableViewController: UITableViewController {
             tempreture = ConversionService.getTempretureInC(weatherItems[indexPath.row].main.temp)
         }
         cell.degreeLable.text = String((tempreture)) + "°" // kelven to C or F
+        cell.iconImageView.image = UIImage(named: weatherItems[indexPath.row].weather[0].icon)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailsViewController(weatherObject: weatherItems[indexPath.row], status: status)
+        vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
     
@@ -114,6 +117,15 @@ class MainTableViewController: UITableViewController {
     }
     
    
+    
+}
+
+extension MainTableViewController: searchDelegate {
+    func didGetWeatherItem(weatherObject: WeatherObject) {
+        self.weatherItems.append(weatherObject)
+        tableView.reloadData()
+        PersistentStore().save(weatherObject: weatherObject)
+    }
     
 }
 

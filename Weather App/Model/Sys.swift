@@ -12,13 +12,15 @@ class Sys: Decodable {
     let type, id: Int
     let country: String
     let sunrise, sunset: Int
+    var message: Double?
 
     
-    init(type : Int, id: Int, country: String,  sunrise: Int,  sunset: Int) {
+    init(type : Int, id: Int, country: String,  sunrise: Int,  sunset: Int, message: Double? = nil) {
         self.type = type
         self.id = id
         self.country = country
         self.sunrise = sunrise
         self.sunset = sunset
+        self.message = message
     }
 }

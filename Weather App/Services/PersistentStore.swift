@@ -80,7 +80,10 @@ class PersistentStore: Persistent{
         objc.id = Int32(weatherObject.id)
         objc.name = weatherObject.name
         objc.timezone = Int32(weatherObject.timezone)
-        objc.visibility = Int32(weatherObject.visibility)
+        if let visibility = weatherObject.visibility {
+            objc.visibility = Int32(visibility)
+        }
+        
         
         let windCD = WindCD(context: context)
         windCD.speed = weatherObject.wind.speed
@@ -113,6 +116,9 @@ class PersistentStore: Persistent{
         sysCD.sunset = Int32(weatherObject.sys.sunset)
         sysCD.sunrise = Int32(weatherObject.sys.sunrise)
         sysCD.type = Int32(weatherObject.sys.type)
+        if let message = weatherObject.sys.message {
+            sysCD.message = message
+        }
         objc.sys = sysCD
         
         let weatherCD = WeatherCD(context: context)
@@ -164,7 +170,8 @@ class PersistentStore: Persistent{
                                                pressure: Int($0.main!.pressure),
                                                humidity: Int($0.main!.humidity),
                                                temp_min: $0.main!.tempMin,
-                                               temp_max: $0.main!.tempMax),
+                                               temp_max: $0.main!.tempMax,
+                                               feelsLike: $0.main!.feelsLike),
                                     clouds: Clouds(all: Int($0.clouds!.all)),
                                     sys: Sys(type: Int($0.sys!.type),
                                              id: Int($0.sys!.id),

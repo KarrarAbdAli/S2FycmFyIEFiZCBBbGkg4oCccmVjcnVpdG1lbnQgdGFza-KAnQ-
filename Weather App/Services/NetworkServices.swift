@@ -27,7 +27,8 @@ class NetworkServices {
                     do {
                         let weather = try JSONDecoder().decode(WeatherObject.self, from: data)
                         completion(.success(weather))
-                    } catch{
+                    } catch let error{
+                        print(error)
                         completion(.failure(NetworkingErrors.jsonParsingError))
                     }
                 }

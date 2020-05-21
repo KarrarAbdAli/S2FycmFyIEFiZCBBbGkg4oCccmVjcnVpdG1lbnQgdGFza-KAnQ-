@@ -13,6 +13,6 @@ class ConversionService {
     }
     
     static func getTempretureInF(_ kelvenValue: Double) -> Int {
-        Int((kelvenValue - 273.15) * 9/5 + 32)
+        Int(((kelvenValue - 273.15) * 9/5) + 32)
     }
 }

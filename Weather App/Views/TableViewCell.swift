@@ -10,6 +10,8 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
 
+    @IBOutlet weak var cityLabel: UIView!
+    @IBOutlet weak var degreeLable: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

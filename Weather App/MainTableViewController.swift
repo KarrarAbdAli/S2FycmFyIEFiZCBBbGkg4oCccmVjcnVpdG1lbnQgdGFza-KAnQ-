@@ -12,7 +12,7 @@ class MainTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupTableView()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -33,6 +33,9 @@ class MainTableViewController: UITableViewController {
         return 0
     }
 
-   
-
+   // MARK: - Helper Methods
+    private func setupTableView(){
+        tableView.backgroundView = UIImageView(image: UIImage(named: "Background"))
+        tableView.separatorColor = UIColor.clear
+    }
 }

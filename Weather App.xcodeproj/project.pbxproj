@@ -24,6 +24,7 @@
 		C7683B4524760D0700BCB669 /* NetworkServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7683B4424760D0700BCB669 /* NetworkServices.swift */; };
 		C7683B492476274100BCB669 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7683B472476274100BCB669 /* TableViewCell.swift */; };
 		C7683B4A2476274100BCB669 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7683B482476274100BCB669 /* TableViewCell.xib */; };
+		C7683B4C24762B8F00BCB669 /* PersistentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7683B4B24762B8F00BCB669 /* PersistentStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		C7683B4424760D0700BCB669 /* NetworkServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServices.swift; sourceTree = "<group>"; };
 		C7683B472476274100BCB669 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		C7683B482476274100BCB669 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
+		C7683B4B24762B8F00BCB669 /* PersistentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				C7683B4424760D0700BCB669 /* NetworkServices.swift */,
+				C7683B4B24762B8F00BCB669 /* PersistentStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 				C7683B4524760D0700BCB669 /* NetworkServices.swift in Sources */,
 				C7683B3B2476087E00BCB669 /* Clouds.swift in Sources */,
 				C7683B332476078000BCB669 /* Weather.swift in Sources */,
+				C7683B4C24762B8F00BCB669 /* PersistentStore.swift in Sources */,
 				C7683B39247607F600BCB669 /* Wind.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

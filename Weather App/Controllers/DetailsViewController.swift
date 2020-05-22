@@ -92,7 +92,6 @@ class DetailsViewController: UIViewController {
             sunriseLabel.text = getDateObject(timeStamp: sys.sunrise)
             sunsetLabel.text = getDateObject(timeStamp: sys.sunset)
         }
-        print(getDateObject(timeStamp: weatherObject.dt))
     }
     
     private func getTempreture(forValue value: Double) -> String {

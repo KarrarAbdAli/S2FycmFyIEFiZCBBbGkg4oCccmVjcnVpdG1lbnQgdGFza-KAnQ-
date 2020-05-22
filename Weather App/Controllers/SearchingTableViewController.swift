@@ -90,7 +90,6 @@ class SearchingTableViewController: UITableViewController {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.backgroundView = blurEffectView
         tableView.backgroundColor = .clear
-        
         let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
         textFieldInsideSearchBar?.textColor = .white
     }

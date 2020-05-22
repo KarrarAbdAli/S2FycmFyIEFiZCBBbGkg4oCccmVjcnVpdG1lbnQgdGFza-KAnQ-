@@ -8,8 +8,10 @@
 
 import Foundation
 class Wind: Decodable{
+    
     let speed: Double
     var deg: Int?
+    
     init(speed: Double, deg: Int?) {
         self.speed = speed
         self.deg = deg

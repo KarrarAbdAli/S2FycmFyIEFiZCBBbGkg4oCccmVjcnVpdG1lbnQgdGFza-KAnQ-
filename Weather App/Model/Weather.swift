@@ -8,9 +8,9 @@
 
 import Foundation
 class Weather: Decodable {
-   let id: Int
+    let id: Int
     let main, weatherDescription, icon: String
-
+    
     enum CodingKeys: String, CodingKey {
         case id, main
         case weatherDescription = "description"

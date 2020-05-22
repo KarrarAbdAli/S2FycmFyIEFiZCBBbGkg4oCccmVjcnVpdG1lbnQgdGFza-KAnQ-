@@ -13,33 +13,23 @@ protocol searchDelegate:AnyObject {
 }
 
 class SearchingTableViewController: UITableViewController {
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var weatherItems: [WeatherObject] = []
     var searchResult: WeatherObject?
     var searchedArray: [String] = []
     var isSearching: Bool = false
+    var cities: [String] = ["Bialystok","Bydgoszcz","Gdansk","Gdynia","Katowice","Krakow","Lodz",
+                            "Lublin","Poznan","Sopot","Szczecin","Torun","Warsaw","Wroclaw","Zakopane"]
     
-    var cities: [String] = ["Bialystok","Bydgoszcz","Gdansk","Gdynia","Katowice","Krakow","Lodz","Lublin","Poznan","Sopot","Szczecin","Torun","Warsaw","Wroclaw","Zakopane"]
     weak var delegate: searchDelegate?
-    
-    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-        
-        weatherItems.forEach{ if !cities.contains($0.name) {
-            cities.append($0.name)
-            }}
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tableView.backgroundView = blurEffectView
-        tableView.backgroundColor = .clear
-
-        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
-        textFieldInsideSearchBar?.textColor = .white
-        
+        setupViews()
+        addingSearchedItemsToCitiesList()
     }
     
     // MARK: - Table view data source
@@ -49,9 +39,7 @@ class SearchingTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count =  isSearching ?  searchedArray.count : cities.count
-        
-        return count
+        isSearching ?  searchedArray.count : cities.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,17 +51,16 @@ class SearchingTableViewController: UITableViewController {
         } else {
             cell.textLabel?.text = cities[indexPath.row]
         }
-        
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let city: String
         if isSearching {
-             city = searchedArray[indexPath.row]
-            
+            city = searchedArray[indexPath.row]
         } else {
-             city = cities[indexPath.row]
+            city = cities[indexPath.row]
         }
+        
         if !isCitySearchedBefore(city) {
             NetworkServices().fetchWeatherData(city: city, completion: { result in
                 switch result{
@@ -83,6 +70,7 @@ class SearchingTableViewController: UITableViewController {
                 }
             })
         }
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -95,9 +83,26 @@ class SearchingTableViewController: UITableViewController {
         return false
     }
     
-}
-extension SearchingTableViewController: UISearchBarDelegate {
+    private func setupViews(){
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.backgroundView = blurEffectView
+        tableView.backgroundColor = .clear
+        
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = .white
+    }
     
+    private func addingSearchedItemsToCitiesList(){
+        weatherItems.forEach{ if !cities.contains($0.name) {
+            cities.append($0.name)
+            }}
+    }
+}
+
+extension SearchingTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let city = searchBar.text {
             if !isCitySearchedBefore(city) {
@@ -111,7 +116,6 @@ extension SearchingTableViewController: UISearchBarDelegate {
                 }
             }
         }
-        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -123,5 +127,4 @@ extension SearchingTableViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         dismiss(animated: true, completion: nil)
     }
-    
 }

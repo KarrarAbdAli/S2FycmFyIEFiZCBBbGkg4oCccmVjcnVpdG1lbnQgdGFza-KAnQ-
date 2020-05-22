@@ -8,7 +8,8 @@
 
 import Foundation
 class Clouds: Decodable {
-     let all: Int
+    let all: Int
+    
     init(all: Int) {
         self.all = all
     }

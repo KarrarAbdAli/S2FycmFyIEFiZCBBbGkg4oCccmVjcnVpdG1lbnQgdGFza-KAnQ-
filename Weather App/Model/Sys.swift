@@ -13,7 +13,6 @@ class Sys: Decodable {
     let country: String
     let sunrise, sunset: Int
     var message: Double?
-
     
     init(type : Int, id: Int, country: String,  sunrise: Int,  sunset: Int, message: Double? = nil) {
         self.type = type

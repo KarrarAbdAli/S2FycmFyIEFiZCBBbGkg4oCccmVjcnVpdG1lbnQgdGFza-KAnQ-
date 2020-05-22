@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum degreeStatus {
+    case c
+    case f
+}
+
 class MainTableViewController: UITableViewController {
     private let identifier = "cellIdentifier"
     var weatherItems: [WeatherObject] = []
@@ -21,7 +26,6 @@ class MainTableViewController: UITableViewController {
                 cButton.setTitleColor(.white, for: .normal)
                 fButton.setTitleColor(.darkGray, for: .normal)
                 tableView.reloadData()
-                
             } else {
                 fButton.setTitleColor(.white, for: .normal)
                 cButton.setTitleColor(.darkGray, for: .normal)
@@ -35,8 +39,8 @@ class MainTableViewController: UITableViewController {
         setupTableView()
         loadData()
         makeDataUpToDate()
-        
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? SearchingTableViewController
         vc?.delegate = self
@@ -98,7 +102,6 @@ class MainTableViewController: UITableViewController {
     private func setupTableView(){
         tableView.backgroundView = UIImageView(image: UIImage(named: "Background"))
         tableView.separatorColor = UIColor.white
-        //        tableView.allowsSelection = false
         tableView.register(UINib(nibName: "WeatherItemCell", bundle: .main), forCellReuseIdentifier: identifier)
     }
     
@@ -181,9 +184,3 @@ extension MainTableViewController: searchDelegate {
         tableView.reloadData()
     }
 }
-
-enum degreeStatus {
-    case c
-    case f
-}
-

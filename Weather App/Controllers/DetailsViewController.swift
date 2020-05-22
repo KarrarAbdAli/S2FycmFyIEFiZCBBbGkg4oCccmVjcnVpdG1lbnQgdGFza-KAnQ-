@@ -9,14 +9,14 @@
 import UIKit
 
 class DetailsViewController: UIViewController {
-    
+    // MARK: - Variables
     var weatherObject: WeatherObject
     var status: degreeStatus
     
+    //MARK: - Outlets
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherDescriptionLabel: UILabel!
     @IBOutlet weak var degreeLabel: UILabel!
-    
     @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var feelsLikeLabel: UILabel!
     @IBOutlet weak var pressureLabel: UILabel!
@@ -26,12 +26,11 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var visibilityLabel: UILabel!
     @IBOutlet weak var cloudsPercentageLabel: UILabel!
     @IBOutlet weak var logoMenuBottomView: UIView!
-    
     @IBOutlet weak var logoImageView: UIImageView!
-    
     @IBOutlet weak var sunriseLabel: UILabel!
     @IBOutlet weak var sunsetLabel: UILabel!
     
+    //MARK: - Initilizers
     convenience init() {
         self.init()
     }
@@ -50,7 +49,6 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
     }
-    
     
     // MARK: - helper methods
     func setupViews() {
@@ -72,7 +70,6 @@ class DetailsViewController: UIViewController {
         if let feelsLikeTemp = main.feelsLike {
             feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
         } else {feelsLikeLabel.text = getTempreture(forValue: main.temp)}
-        
         
         if let wind = weatherObject.wind {
             windSpeedLabel.text = "\(wind.speed) Km/hr"
@@ -96,7 +93,6 @@ class DetailsViewController: UIViewController {
             sunsetLabel.text = getDateObject(timeStamp: sys.sunset)
         }
         print(getDateObject(timeStamp: weatherObject.dt))
-        
     }
     
     private func getTempreture(forValue value: Double) -> String {

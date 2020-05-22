@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+//MARK: - Persistent Protocol
 protocol Persistent {
     func save(weatherObject: WeatherObject)
     func loadData(completion: @escaping (Result<[WeatherObject],Error>) -> Void)
@@ -18,17 +19,21 @@ protocol Persistent {
 
 class PersistentStore: Persistent{
     
-    func updateObject(withid id: Int, newData: WeatherObject, completion: @escaping (Result<Bool, Error>) -> Void) {
-        let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
-        req.predicate = NSPredicate(format: "id==\(id)")
-        var result = try? self.getContext().fetch(req)
-        guard result != nil else {
-            completion(.failure(PersistentContainerError.failToUpdateData))
-            return
-        }
-        result![0] = modelToCoreDataObjectConverter(weatherObject: newData)
+    //MARK: - Main Methods
+    func save(weatherObject: WeatherObject) {
+        _ = modelToCoreDataObjectConverter(weatherObject: weatherObject)
         saveContext()
-        completion(.success(true))
+    }
+    
+    func loadData(completion: @escaping (Result<[WeatherObject],Error>) -> Void) {
+        let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
+        do {
+            let weatherCD = try getContext().fetch(req)
+            let weather = coreDataToModelObjectConverter(cd: weatherCD)
+            completion(.success(weather))
+        } catch {
+            completion(.failure(PersistentContainerError.failToLoadData))
+        }
     }
     
     func delteObject(withid id: Int, completion: @escaping (Result<Bool,Error>) -> Void) {
@@ -44,53 +49,29 @@ class PersistentStore: Persistent{
         }
     }
     
-    func loadData(completion: @escaping (Result<[WeatherObject],Error>) -> Void) {
+    func updateObject(withid id: Int, newData: WeatherObject, completion: @escaping (Result<Bool, Error>) -> Void) {
         let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
-        do {
-            let weatherCD = try getContext().fetch(req)
-            let weather = coreDataToModelObjectConverter(cd: weatherCD)
-            completion(.success(weather))
-        } catch {
-            completion(.failure(PersistentContainerError.failToLoadData))
+        req.predicate = NSPredicate(format: "id==\(id)")
+        var result = try? self.getContext().fetch(req)
+        guard result != nil else {
+            completion(.failure(PersistentContainerError.failToUpdateData))
+            return
         }
-    }
-    
-    func save(weatherObject: WeatherObject) {
-        _ = modelToCoreDataObjectConverter(weatherObject: weatherObject)
+        result![0] = modelToCoreDataObjectConverter(weatherObject: newData)
         saveContext()
+        completion(.success(true))
     }
-    
     
     // MARK: - Core Data stack
-    
     lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
         let container = NSPersistentContainer(name: "Weather_App")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
     }()
-    
-    
     
     // MARK: - Core Data Saving support
     
@@ -100,8 +81,6 @@ class PersistentStore: Persistent{
             do {
                 try context.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
@@ -110,7 +89,7 @@ class PersistentStore: Persistent{
     
     // MARK: - Helper methods and conversion
     private func coreDataToModelObjectConverter(cd: [WeatherObjectCD]) -> [WeatherObject] {
-        var weatherOBJ: [WeatherObject] = []
+        var weatherObj: [WeatherObject] = []
         cd.forEach{
             let obj = WeatherObject(base: $0.base!,
                                     visibility: Int($0.visibility),
@@ -139,9 +118,9 @@ class PersistentStore: Persistent{
                                     wind: Wind(speed: $0.wind!.speed,
                                                deg: Int($0.wind!.deg)),
                                     timezone: Int($0.timezone))
-            weatherOBJ.append(obj)
+            weatherObj.append(obj)
         }
-        return weatherOBJ
+        return weatherObj
     }
     
     private func getContext() ->  NSManagedObjectContext {
@@ -176,7 +155,6 @@ class PersistentStore: Persistent{
             objc.clouds = cloudsCD
         }
         
-        
         let coordCD = CoordCD(context: context)
         if let coord = weatherObject.coord {
             coordCD.lat = coord.lat
@@ -193,8 +171,6 @@ class PersistentStore: Persistent{
         mainCD.tempMax = main.tempMax
         mainCD.tempMin = main.tempMin
         objc.main = mainCD
-        
-        
         
         let sysCD = SysCD(context: context)
         if let sys = weatherObject.sys {
@@ -221,11 +197,10 @@ class PersistentStore: Persistent{
         }
         return objc
     }
-}
-
-
-enum PersistentContainerError: Error {
-    case unableToDeleteItemWithTheSpecifiedId
-    case failToLoadData
-    case failToUpdateData
+    
+    enum PersistentContainerError: Error {
+        case unableToDeleteItemWithTheSpecifiedId
+        case failToLoadData
+        case failToUpdateData
+    }
 }

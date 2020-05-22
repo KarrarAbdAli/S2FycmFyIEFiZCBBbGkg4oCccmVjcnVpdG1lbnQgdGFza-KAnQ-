@@ -11,7 +11,7 @@ class Main: Decodable {
     let temp, tempMin, tempMax: Double
     let pressure, humidity: Int
     var  feelsLike: Double?
-
+    
     enum CodingKeys: String, CodingKey {
         case temp, pressure, humidity
         case feelsLike = "feels_like"

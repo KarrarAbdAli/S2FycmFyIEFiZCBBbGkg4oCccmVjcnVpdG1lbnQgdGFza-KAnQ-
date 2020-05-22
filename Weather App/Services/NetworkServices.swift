@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum NetworkingErrors: Error {
+    case networkErrorTaskError
+    case jsonParsingError
+}
+
 class NetworkServices {
     
     private let key = "8e032ed5e3a3bff36fcce6bc0145dc15"
@@ -16,14 +21,8 @@ class NetworkServices {
     func fetchWeatherData(city: String, completion: @escaping (Result<WeatherObject,Error>) -> Void){
         let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(key)")!
         var request = URLRequest(url: url)
-               request.httpMethod = "GET"
-        fetch(urlRequest: request, completion: completion)
-    }
-    
-
-    
-    private func fetch(urlRequest: URLRequest, completion: @escaping (Result<WeatherObject,Error>) -> Void){
-        session.dataTask(with: urlRequest) { (data, response, error) in
+        request.httpMethod = "GET"
+        session.dataTask(with: request) { (data, response, error) in
             if let _ = error {
                 completion(.failure(NetworkingErrors.networkErrorTaskError))
             }
@@ -43,8 +42,3 @@ class NetworkServices {
 }
 
 
-
-enum NetworkingErrors: Error {
-    case networkErrorTaskError
-    case jsonParsingError
-}

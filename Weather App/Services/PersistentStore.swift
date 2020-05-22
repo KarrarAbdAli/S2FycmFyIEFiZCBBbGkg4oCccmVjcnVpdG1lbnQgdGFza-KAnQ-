@@ -12,12 +12,12 @@ import CoreData
 protocol Persistent {
     func save(weatherObject: WeatherObject)
     func loadData(completion: @escaping (Result<[WeatherObject],Error>) -> Void)
-    func delteObject(withid id:Int)
+    func delteObject(withid id:Int, completion: @escaping (Result<Bool,Error>) -> Void)
 }
 
 class PersistentStore: Persistent{
     
-    func delteObject(withid id: Int) {
+    func delteObject(withid id: Int, completion: @escaping (Result<Bool,Error>) -> Void) {
         let context = getContext()
         let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
         req.predicate = NSPredicate(format: "id==\(id)")
@@ -26,6 +26,9 @@ class PersistentStore: Persistent{
                 context.delete(object)
             }
             saveContext()
+            completion(.success(true))
+        } else {
+            completion(.failure(PersistentContainerError.unableToDeleteItemWithTheSpecifiedId))
         }
     }
     
@@ -37,7 +40,7 @@ class PersistentStore: Persistent{
             let weather = cdToObjct(cd: weatherCD)
             completion(.success(weather))
         } catch {
-            
+            completion(.failure(PersistentContainerError.failToLoadData))
         }
     }
     
@@ -84,13 +87,11 @@ class PersistentStore: Persistent{
             objc.visibility = Int32(visibility)
         }
         
-        
         let windCD = WindCD(context: context)
         windCD.speed = weatherObject.wind.speed
         if let deg = weatherObject.wind.deg {
             windCD.deg = Int32(deg)
         }
-        
         objc.wind = windCD
         
         let cloudsCD = CloudsCD(context: context)
@@ -129,8 +130,6 @@ class PersistentStore: Persistent{
         objc.weather = weatherCD
         
         saveContext()
-        
-
     }
     
     
@@ -190,4 +189,10 @@ class PersistentStore: Persistent{
         persistentContainer.viewContext
     }
     
+}
+
+
+enum PersistentContainerError: Error {
+    case unableToDeleteItemWithTheSpecifiedId
+    case failToLoadData
 }

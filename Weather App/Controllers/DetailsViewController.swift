@@ -25,9 +25,9 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var maxTempLabel: UILabel!
     @IBOutlet weak var visibilityLabel: UILabel!
     @IBOutlet weak var cloudsPercentageLabel: UILabel!
+    @IBOutlet weak var logoMenuBottomView: UIView!
     
-    
-    
+    @IBOutlet weak var logoImageView: UIImageView!
     
     convenience init() {
         self.init()
@@ -52,37 +52,43 @@ class DetailsViewController: UIViewController {
     // MARK: - helper methods
     func setupViews() {
         view.insertSubview(UIImageView(image: UIImage(named: "Background")), at: 0)
+        logoMenuBottomView.layer.borderColor = UIColor.lightGray.cgColor
+        logoMenuBottomView.layer.borderWidth = 0.5
         cityLabel.text = weatherObject.name
-        weatherDescriptionLabel.text = weatherObject.weather[0].weatherDescription
+        weatherDescriptionLabel.text = weatherObject.weather[0].weatherDescription.capitalized
         degreeLabel.text = getTempreture(forValue: weatherObject.main.temp)
         windSpeedLabel.text = "\(weatherObject.wind.speed) Km/hr"
         if let feelsLikeTemp = weatherObject.main.feelsLike {
             feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
             print(feelsLikeTemp)
             print(getTempreture(forValue: feelsLikeTemp))
-        } else {
-            feelsLikeLabel.text = getTempreture(forValue: weatherObject.main.temp)
-        }
+        } else {feelsLikeLabel.text = getTempreture(forValue: weatherObject.main.temp)}
         pressureLabel.text = "\(weatherObject.main.pressure) hPa"
         humidityLabel.text = "\(weatherObject.main.humidity)%"
         minTempLabel.text = getTempreture(forValue: weatherObject.main.tempMin)
         maxTempLabel.text = getTempreture(forValue: weatherObject.main.tempMax)
         if let visibility = weatherObject.visibility  {
             visibilityLabel.text = "\(visibility/1000) Km"
-        } else {
-           visibilityLabel.text = "Data not Avilable"
-        }
-        
+        } else { visibilityLabel.text = "Data not Avilable" }
         cloudsPercentageLabel.text = "\(weatherObject.clouds.all) %"
-        
+        logoImageView.isUserInteractionEnabled = true
+        logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoImageViewDidClick)))
     }
+    
+    
     private func getTempreture(forValue value: Double) -> String {
-        
-        ((status == .c) ? String(ConversionService.getTempretureInC(value)) + "°" : String(ConversionService.getTempretureInF(value)) + "°")
+        ((status == .c) ?
+            String(ConversionService.getTempretureInC(value)) + "°" :
+            String(ConversionService.getTempretureInF(value)) + "°")
     }
     
     @IBAction func listBackClicked(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc private func logoImageViewDidClick(){
+        if let url = URL(string: "https://openweathermap.org/") {
+            UIApplication.shared.open(url)
+        }
+    }
 }

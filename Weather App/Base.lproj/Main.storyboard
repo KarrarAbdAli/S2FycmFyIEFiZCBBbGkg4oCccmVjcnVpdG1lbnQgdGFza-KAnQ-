@@ -51,7 +51,9 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykb-j1-gFK">
                                     <rect key="frame" x="384" y="15" width="20" height="22"/>
                                     <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                    <state key="normal" image="plus.circle" catalog="system"/>
+                                    <state key="normal" image="plus.circle" catalog="system">
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
+                                    </state>
                                     <connections>
                                         <segue destination="aty-Za-0fq" kind="show" id="Njk-DS-SmT"/>
                                     </connections>

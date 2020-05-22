@@ -100,11 +100,24 @@ class MainTableViewController: UITableViewController {
         present(vc, animated: true)
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            PersistentStore().delteObject(withid: weatherItems[indexPath.row].id, completion: { result in
+                switch result{
+                case .success(_):
+                    self.weatherItems.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                case .failure(let error): print(error)
+                }
+            })
+        }
+    }
+    
     // MARK: - Helper Methods
     private func setupTableView(){
         tableView.backgroundView = UIImageView(image: UIImage(named: "Background"))
         tableView.separatorColor = UIColor.white
-//        tableView.allowsSelection = false
+        //        tableView.allowsSelection = false
         tableView.register(UINib(nibName: "WeatherItemCell", bundle: .main), forCellReuseIdentifier: identifier)
     }
     
@@ -116,7 +129,7 @@ class MainTableViewController: UITableViewController {
         status = .f
     }
     
-   
+    
     
 }
 
@@ -130,7 +143,7 @@ extension MainTableViewController: searchDelegate {
 }
 
 enum degreeStatus {
-       case c
-       case f
-   }
+    case c
+    case f
+}
 

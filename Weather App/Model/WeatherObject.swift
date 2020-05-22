@@ -9,10 +9,10 @@
 import Foundation
 
 class WeatherObject: Decodable{
-    let coord: Coord
-    let weather: [Weather]
-    let base: String
-    let main: Main
+    var coord: Coord?
+    var weather: [Weather]?
+    var base: String?
+    var main: Main?
     var visibility: Int?
     let wind: Wind
     let clouds: Clouds
@@ -23,7 +23,7 @@ class WeatherObject: Decodable{
     let cod: Int
     
     
-    init(base: String, visibility: Int?,  dt: Int, id: Int, name: String, cod: Int, coord: Coord, weather: [Weather], main: Main, clouds: Clouds, sys: Sys, wind: Wind, timezone: Int) {
+    init(base: String?, visibility: Int?,  dt: Int, id: Int, name: String, cod: Int, coord: Coord?, weather: [Weather]?, main: Main?, clouds: Clouds, sys: Sys, wind: Wind, timezone: Int) {
         self.base = base
         self.visibility = visibility
         self.dt = dt

@@ -55,18 +55,27 @@ class DetailsViewController: UIViewController {
         logoMenuBottomView.layer.borderColor = UIColor.lightGray.cgColor
         logoMenuBottomView.layer.borderWidth = 0.5
         cityLabel.text = weatherObject.name
-        weatherDescriptionLabel.text = weatherObject.weather[0].weatherDescription.capitalized
-        degreeLabel.text = getTempreture(forValue: weatherObject.main.temp)
+        if let weather = weatherObject.weather {
+            weatherDescriptionLabel.text = weather[0].weatherDescription.capitalized
+        } else {
+            weatherDescriptionLabel.text = "No Description Avilable"
+        }
+        if let main = weatherObject.main {
+            degreeLabel.text = getTempreture(forValue: main.temp)
+            pressureLabel.text = "\(main.pressure) hPa"
+            humidityLabel.text = "\(main.humidity)%"
+            minTempLabel.text = getTempreture(forValue: main.tempMin)
+            maxTempLabel.text = getTempreture(forValue: main.tempMax)
+            if let feelsLikeTemp = main.feelsLike {
+                feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
+                print(feelsLikeTemp)
+                print(getTempreture(forValue: feelsLikeTemp))
+            } else {feelsLikeLabel.text = getTempreture(forValue: main.temp)}
+        }
+        
+        
+        
         windSpeedLabel.text = "\(weatherObject.wind.speed) Km/hr"
-        if let feelsLikeTemp = weatherObject.main.feelsLike {
-            feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
-            print(feelsLikeTemp)
-            print(getTempreture(forValue: feelsLikeTemp))
-        } else {feelsLikeLabel.text = getTempreture(forValue: weatherObject.main.temp)}
-        pressureLabel.text = "\(weatherObject.main.pressure) hPa"
-        humidityLabel.text = "\(weatherObject.main.humidity)%"
-        minTempLabel.text = getTempreture(forValue: weatherObject.main.tempMin)
-        maxTempLabel.text = getTempreture(forValue: weatherObject.main.tempMax)
         if let visibility = weatherObject.visibility  {
             visibilityLabel.text = "\(visibility/1000) Km"
         } else { visibilityLabel.text = "Data not Avilable" }

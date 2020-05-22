@@ -19,7 +19,6 @@ class MainTableViewController: UITableViewController {
         didSet {
             if status == .c {
                 cButton.setTitleColor(.white, for: .normal)
-                
                 fButton.setTitleColor(.darkGray, for: .normal)
                 tableView.reloadData()
                 
@@ -35,31 +34,10 @@ class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         setupTableView()
         
-        // Loding Data
-        PersistentStore().loadData { (result) in
-            switch result {
-            case .success(let weatherObjs):
-                self.weatherItems = weatherObjs
-                self.tableView.reloadData()
-            case .failure(let error): print(error)
-            }
-        }
-        
-        let x = weatherItems.filter{$0.name == "Krakow"}
-        if x.count == 0 {
-            NetworkServices().fetchWeatherData(city: "krakow") { (result) in
-                switch result {
-                case .success(let weather):
-                    self.weatherItems.append(weather)
-                    PersistentStore().save(weatherObject: weather)
-                    self.tableView.reloadData()
-                case .failure(let error): print(error)
-                }
-            }
-            
-        }
-        
-        
+        // Loding Core Data context
+        loadData()
+        //Fetching free data to start the app with
+        fetchFreeData()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? SearchingTableViewController
@@ -84,13 +62,18 @@ class MainTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! WeatherItemCell
         cell.cityLabel.text = weatherItems[indexPath.row].name
         var tempreture: Int = 0
-        if status == .f {
-            tempreture = ConversionService.getTempretureInF(weatherItems[indexPath.row].main.temp)
-        } else {
-            tempreture = ConversionService.getTempretureInC(weatherItems[indexPath.row].main.temp)
+        
+        if let main = weatherItems[indexPath.row].main {
+            if status == .f {
+                tempreture = ConversionService.getTempretureInF(main.temp)
+            } else {
+                tempreture = ConversionService.getTempretureInC(main.temp)
+            }
         }
         cell.degreeLable.text = String((tempreture)) + "°" // kelven to C or F
-        cell.iconImageView.image = UIImage(named: weatherItems[indexPath.row].weather[0].icon)
+        if let weather = weatherItems[indexPath.row].weather{
+            cell.iconImageView.image = UIImage(named: weather[0].icon)
+        }
         return cell
     }
     
@@ -121,6 +104,26 @@ class MainTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "WeatherItemCell", bundle: .main), forCellReuseIdentifier: identifier)
     }
     
+    private func loadData(){
+        PersistentStore().loadData { (result) in
+            switch result {
+            case .success(let weatherObjs):
+                self.weatherItems = weatherObjs
+                self.tableView.reloadData()
+            case .failure(let error): print(error)
+            }
+        }
+    }
+    
+    private func fetchFreeData(){
+        NetworkServices().freeFetchAPICall { result in
+            switch result {
+            case.success(let object): self.updateOrAddWeatherItem(withId: object.id, weatherItem: object)
+            case.failure(let error): print(error)
+            }
+        }
+    }
+    
     @IBAction func cDegreeChoosen(_ sender: Any) {
         status = .c
     }
@@ -129,6 +132,21 @@ class MainTableViewController: UITableViewController {
         status = .f
     }
     
+    private func updateOrAddWeatherItem(withId id: Int, weatherItem: WeatherObject){
+        if isItemWithIdExist(id: id) {
+            let mapedWeatherItems = weatherItems.map({ $0.id == id ? weatherItem : $0 })
+            weatherItems = mapedWeatherItems
+        }
+    }
+    
+    private func isItemWithIdExist(id: Int) -> Bool {
+        let value = weatherItems.filter({$0.id == id}).count
+        if value == 0 {
+            return false
+        } else {
+            return true
+        }
+    }
     
     
 }

@@ -5,8 +5,8 @@
         <relationship name="weatherObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherObjectCD" inverseName="clouds" inverseEntity="WeatherObjectCD"/>
     </entity>
     <entity name="CoordCD" representedClassName="CoordCD" syncable="YES" codeGenerationType="class">
-        <attribute name="lat" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="lon" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="weatherObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherObjectCD" inverseName="coord" inverseEntity="WeatherObjectCD"/>
     </entity>
     <entity name="MainCD" representedClassName="MainCD" syncable="YES" codeGenerationType="class">
@@ -35,12 +35,12 @@
         <relationship name="weatherObject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherObjectCD" inverseName="weather" inverseEntity="WeatherObjectCD"/>
     </entity>
     <entity name="WeatherObjectCD" representedClassName="WeatherObjectCD" syncable="YES" codeGenerationType="class">
-        <attribute name="base" attributeType="String"/>
-        <attribute name="cod" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="dt" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String"/>
-        <attribute name="timezone" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="base" optional="YES" attributeType="String"/>
+        <attribute name="cod" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dt" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="timezone" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="visibility" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="clouds" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CloudsCD" inverseName="weatherObject" inverseEntity="CloudsCD"/>
         <relationship name="coord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoordCD" inverseName="weatherObject" inverseEntity="CoordCD"/>

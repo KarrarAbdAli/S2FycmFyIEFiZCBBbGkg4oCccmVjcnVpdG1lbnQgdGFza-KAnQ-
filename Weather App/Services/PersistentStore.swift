@@ -13,18 +13,30 @@ protocol Persistent {
     func save(weatherObject: WeatherObject)
     func loadData(completion: @escaping (Result<[WeatherObject],Error>) -> Void)
     func delteObject(withid id:Int, completion: @escaping (Result<Bool,Error>) -> Void)
+    func updateObject(withid id:Int, newData: WeatherObject, completion: @escaping (Result<Bool,Error>) -> Void)
 }
 
 class PersistentStore: Persistent{
+    
+    func updateObject(withid id: Int, newData: WeatherObject, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
+        req.predicate = NSPredicate(format: "id==\(id)")
+        var result = try? self.getContext().fetch(req)
+        guard result != nil else {
+            completion(.failure(PersistentContainerError.failToUpdateData))
+            return
+        }
+        result![0] = modelToCoreDataObjectConverter(weatherObject: newData)
+        saveContext()
+        completion(.success(true))
+    }
     
     func delteObject(withid id: Int, completion: @escaping (Result<Bool,Error>) -> Void) {
         let context = getContext()
         let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
         req.predicate = NSPredicate(format: "id==\(id)")
         if let result = try? context.fetch(req) {
-            for object in result {
-                context.delete(object)
-            }
+            context.delete(result[0])
             saveContext()
             completion(.success(true))
         } else {
@@ -32,16 +44,20 @@ class PersistentStore: Persistent{
         }
     }
     
-    
     func loadData(completion: @escaping (Result<[WeatherObject],Error>) -> Void) {
         let req = NSFetchRequest<WeatherObjectCD>(entityName: "WeatherObjectCD")
         do {
             let weatherCD = try getContext().fetch(req)
-            let weather = cdToObjct(cd: weatherCD)
+            let weather = coreDataToModelObjectConverter(cd: weatherCD)
             completion(.success(weather))
         } catch {
             completion(.failure(PersistentContainerError.failToLoadData))
         }
+    }
+    
+    func save(weatherObject: WeatherObject) {
+        _ = modelToCoreDataObjectConverter(weatherObject: weatherObject)
+        saveContext()
     }
     
     
@@ -74,63 +90,6 @@ class PersistentStore: Persistent{
         return container
     }()
     
-    func save(weatherObject: WeatherObject) {
-        let context = getContext()
-        let objc = WeatherObjectCD(context: context)
-        objc.base = weatherObject.base
-        objc.cod = Int32(weatherObject.cod)
-        objc.dt = Int32(weatherObject.dt)
-        objc.id = Int32(weatherObject.id)
-        objc.name = weatherObject.name
-        objc.timezone = Int32(weatherObject.timezone)
-        if let visibility = weatherObject.visibility {
-            objc.visibility = Int32(visibility)
-        }
-        
-        let windCD = WindCD(context: context)
-        windCD.speed = weatherObject.wind.speed
-        if let deg = weatherObject.wind.deg {
-            windCD.deg = Int32(deg)
-        }
-        objc.wind = windCD
-        
-        let cloudsCD = CloudsCD(context: context)
-        cloudsCD.all = Int32(weatherObject.clouds.all)
-        objc.clouds = cloudsCD
-        
-        let coordCD = CoordCD(context: context)
-        coordCD.lat = weatherObject.coord.lat
-        coordCD.lon = weatherObject.coord.lon
-        objc.coord = coordCD
-        
-        let mainCD = MainCD(context: context)
-        mainCD.humidity = Int32(weatherObject.main.humidity)
-        mainCD.pressure = Int32(weatherObject.main.pressure)
-        mainCD.temp = weatherObject.main.temp
-        mainCD.tempMax = weatherObject.main.tempMax
-        mainCD.tempMin = weatherObject.main.tempMin
-        objc.main = mainCD
-        
-        let sysCD = SysCD(context: context)
-        sysCD.country = weatherObject.sys.country
-        sysCD.id = Int32(weatherObject.sys.id)
-        sysCD.sunset = Int32(weatherObject.sys.sunset)
-        sysCD.sunrise = Int32(weatherObject.sys.sunrise)
-        sysCD.type = Int32(weatherObject.sys.type)
-        if let message = weatherObject.sys.message {
-            sysCD.message = message
-        }
-        objc.sys = sysCD
-        
-        let weatherCD = WeatherCD(context: context)
-        weatherCD.icon = weatherObject.weather[0].icon
-        weatherCD.id = Int32(weatherObject.weather[0].id)
-        weatherCD.main = weatherObject.weather[0].main
-        weatherCD.weatherDescription = weatherObject.weather[0].weatherDescription
-        objc.weather = weatherCD
-        
-        saveContext()
-    }
     
     
     // MARK: - Core Data Saving support
@@ -150,7 +109,7 @@ class PersistentStore: Persistent{
     }
     
     // MARK: - Helper methods and conversion
-    private func cdToObjct(cd: [WeatherObjectCD]) -> [WeatherObject] {
+    private func coreDataToModelObjectConverter(cd: [WeatherObjectCD]) -> [WeatherObject] {
         var weatherOBJ: [WeatherObject] = []
         cd.forEach{
             let obj = WeatherObject(base: $0.base!,
@@ -189,10 +148,78 @@ class PersistentStore: Persistent{
         persistentContainer.viewContext
     }
     
+    private func modelToCoreDataObjectConverter(weatherObject: WeatherObject) -> WeatherObjectCD {
+        let context = getContext()
+        let objc = WeatherObjectCD(context: context)
+        objc.base = weatherObject.base
+        objc.cod = Int32(weatherObject.cod)
+        objc.dt = Int32(weatherObject.dt)
+        objc.id = Int32(weatherObject.id)
+        objc.name = weatherObject.name
+        objc.timezone = Int32(weatherObject.timezone)
+        if let visibility = weatherObject.visibility {
+            objc.visibility = Int32(visibility)
+        }
+        
+        let windCD = WindCD(context: context)
+        windCD.speed = weatherObject.wind.speed
+        if let deg = weatherObject.wind.deg {
+            windCD.deg = Int32(deg)
+        }
+        objc.wind = windCD
+        
+        let cloudsCD = CloudsCD(context: context)
+        cloudsCD.all = Int32(weatherObject.clouds.all)
+        objc.clouds = cloudsCD
+        
+        let coordCD = CoordCD(context: context)
+        if let coord = weatherObject.coord {
+            coordCD.lat = coord.lat
+            coordCD.lon = coord.lon
+        }
+        objc.coord = coordCD
+        
+        let mainCD = MainCD(context: context)
+        if let main = weatherObject.main {
+            mainCD.humidity = Int32(main.humidity)
+            mainCD.pressure = Int32(main.pressure)
+            mainCD.temp = main.temp
+            mainCD.tempMax = main.tempMax
+            mainCD.tempMin = main.tempMin
+            objc.main = mainCD
+        } else {
+            objc.main = nil
+        }
+        
+        
+        let sysCD = SysCD(context: context)
+        sysCD.country = weatherObject.sys.country
+        sysCD.id = Int32(weatherObject.sys.id)
+        sysCD.sunset = Int32(weatherObject.sys.sunset)
+        sysCD.sunrise = Int32(weatherObject.sys.sunrise)
+        sysCD.type = Int32(weatherObject.sys.type)
+        if let message = weatherObject.sys.message {
+            sysCD.message = message
+        }
+        objc.sys = sysCD
+        
+        let weatherCD = WeatherCD(context: context)
+        if let weather = weatherObject.weather {
+            weatherCD.icon = weather[0].icon
+            weatherCD.id = Int32(weather[0].id)
+            weatherCD.main = weather[0].main
+            weatherCD.weatherDescription = weather[0].weatherDescription
+            objc.weather = weatherCD
+        } else {
+            objc.weather = nil
+        }
+        return objc
+    }
 }
 
 
 enum PersistentContainerError: Error {
     case unableToDeleteItemWithTheSpecifiedId
     case failToLoadData
+    case failToUpdateData
 }

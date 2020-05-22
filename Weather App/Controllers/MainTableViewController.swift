@@ -33,9 +33,9 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        
-        // Loding Core Data context
         loadData()
+        makeDataUpToDate()
+        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? SearchingTableViewController
@@ -61,12 +61,12 @@ class MainTableViewController: UITableViewController {
         cell.cityLabel.text = weatherItems[indexPath.row].name
         var tempreture: Int = 0
         
-         let main = weatherItems[indexPath.row].main 
-            if status == .f {
-                tempreture = ConversionService.getTempretureInF(main.temp)
-            } else {
-                tempreture = ConversionService.getTempretureInC(main.temp)
-            }
+        let main = weatherItems[indexPath.row].main
+        if status == .f {
+            tempreture = ConversionService.getTempretureInF(main.temp)
+        } else {
+            tempreture = ConversionService.getTempretureInC(main.temp)
+        }
         
         cell.degreeLable.text = String((tempreture)) + "°" // kelven to C or F
         if let weather = weatherItems[indexPath.row].weather{
@@ -113,6 +113,18 @@ class MainTableViewController: UITableViewController {
         }
     }
     
+    func makeDataUpToDate() {
+        for item in weatherItems {
+            if !isDataUpToDate(weatherObject: item) {
+                NetworkServices().fetchWeatherData(city: item.name) { (result) in
+                    switch result {
+                    case .success(let obj): self.updateOrAddWeatherItem(withId: obj.id, weatherItem: obj)
+                    case .failure(let error): print(error)
+                    }
+                }
+            }
+        }
+    }
     
     @IBAction func cDegreeChoosen(_ sender: Any) {
         status = .c
@@ -126,6 +138,10 @@ class MainTableViewController: UITableViewController {
         if isItemWithIdExist(id: id) {
             let mapedWeatherItems = weatherItems.map({ $0.id == id ? weatherItem : $0 })
             weatherItems = mapedWeatherItems
+            PersistentStore().saveContext()
+        } else {
+            weatherItems.append(weatherItem)
+            PersistentStore().save(weatherObject: weatherItem)
         }
     }
     
@@ -138,6 +154,24 @@ class MainTableViewController: UITableViewController {
         }
     }
     
+    private func isDataUpToDate(weatherObject: WeatherObject) -> Bool{
+        var calendar = Calendar.current
+        let date = Date(timeIntervalSince1970: Double(weatherObject.dt))
+        
+        calendar.timeZone = .current
+        let ObjectYear = calendar.component(.year, from: date)
+        let ObjectMonth = calendar.component(.month, from: date)
+        let ObjectHour = calendar.component(.hour, from: date)
+        
+        let currentYear = calendar.component(.year, from: date)
+        let currentMonth = calendar.component(.month, from: date)
+        let currnetHour = calendar.component(.hour, from: date)
+        
+        if (ObjectYear != currentYear) || (ObjectMonth != currentMonth) || (ObjectHour != currnetHour ) {
+            return false
+        }
+        return true
+    }
     
 }
 
@@ -145,7 +179,6 @@ extension MainTableViewController: searchDelegate {
     func didGetWeatherItem(weatherObject: WeatherObject) {
         self.updateOrAddWeatherItem(withId: weatherObject.id, weatherItem: weatherObject)
         tableView.reloadData()
-        PersistentStore().save(weatherObject: weatherObject)
     }
 }
 

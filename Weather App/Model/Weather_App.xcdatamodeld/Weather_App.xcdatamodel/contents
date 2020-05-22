@@ -37,7 +37,7 @@
     <entity name="WeatherObjectCD" representedClassName="WeatherObjectCD" syncable="YES" codeGenerationType="class">
         <attribute name="base" optional="YES" attributeType="String"/>
         <attribute name="cod" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
-        <attribute name="dt" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dt" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="Integer 32" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="timezone" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>

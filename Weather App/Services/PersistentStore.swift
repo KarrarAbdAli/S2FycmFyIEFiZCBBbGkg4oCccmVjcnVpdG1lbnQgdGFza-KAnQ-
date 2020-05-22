@@ -153,7 +153,7 @@ class PersistentStore: Persistent{
         let objc = WeatherObjectCD(context: context)
         objc.base = weatherObject.base
         objc.cod = Int32(weatherObject.cod)
-        objc.dt = Int32(weatherObject.dt ?? 0)
+        objc.dt = Int32(weatherObject.dt)
         objc.id = Int32(weatherObject.id)
         objc.name = weatherObject.name
         objc.timezone = Int32(weatherObject.timezone)

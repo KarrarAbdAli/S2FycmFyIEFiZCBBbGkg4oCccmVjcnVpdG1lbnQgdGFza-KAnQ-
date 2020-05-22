@@ -104,7 +104,6 @@ extension SearchingTableViewController: UISearchBarDelegate {
                 NetworkServices().fetchWeatherData(city: city) { (result) in
                     switch result{
                     case.success(let weatherObject):
-                        self.weatherItems.append(weatherObject)
                         self.delegate?.didGetWeatherItem(weatherObject: weatherObject)
                         self.dismiss(animated: true, completion: nil)
                     case.failure(let error): print(error)

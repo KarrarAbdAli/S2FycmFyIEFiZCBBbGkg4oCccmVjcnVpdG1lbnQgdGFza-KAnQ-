@@ -95,9 +95,9 @@ class DetailsViewController: UIViewController {
             sunriseLabel.text = getDateObject(timeStamp: sys.sunrise)
             sunsetLabel.text = getDateObject(timeStamp: sys.sunset)
         }
+        print(getDateObject(timeStamp: weatherObject.dt))
         
     }
-    
     
     private func getTempreture(forValue value: Double) -> String {
         ((status == .c) ?
@@ -115,11 +115,13 @@ class DetailsViewController: UIViewController {
         }
     }
     
-    
     private func getDateObject(timeStamp: Int) -> String {
         let date = Date(timeIntervalSince1970: Double(timeStamp))
         var calendar = Calendar.current
         calendar.timeZone = .current
-        return calendar.getTimeFromCalender(date: date)
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        let seconds = calendar.component(.second, from: date)
+        return "\(hour):\(minutes):\(seconds)"
     }
 }

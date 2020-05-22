@@ -28,7 +28,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var logoMenuBottomView: UIView!
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var sunriseLabel: UILabel!
-    @IBOutlet weak var sunsetLabel: UILabel!
+    @IBOutlet weak var sunsetLabel: UILabel!    
     
     //MARK: - Initilizers
     convenience init() {
@@ -116,7 +116,6 @@ class DetailsViewController: UIViewController {
         calendar.timeZone = .current
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
-        let seconds = calendar.component(.second, from: date)
-        return "\(hour):\(minutes):\(seconds)"
+        return "\(hour):\(minutes)"
     }
 }

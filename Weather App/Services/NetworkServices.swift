@@ -15,7 +15,7 @@ enum NetworkingErrors: Error {
 
 class NetworkServices {
     
-    private let key = "8e032ed5e3a3bff36fcce6bc0145dc15"
+    private let key = "8e032ed5e3a3bff36fcce6bc0145dc15" // use this key if the service calls stoped "183fe529e238191c9e5187931d3fed0e"
     private let session = URLSession.shared
     
     func fetchWeatherData(city: String, completion: @escaping (Result<WeatherObject,Error>) -> Void){

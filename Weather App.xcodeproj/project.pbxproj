@@ -29,6 +29,7 @@
 		C7683B5224766B8700BCB669 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7683B5024766B8600BCB669 /* DetailsViewController.swift */; };
 		C7683B5324766B8700BCB669 /* DetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7683B5124766B8600BCB669 /* DetailsViewController.xib */; };
 		C7683B5524766FA800BCB669 /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7683B5424766FA800BCB669 /* ConversionService.swift */; };
+		C7A912E32477A2AC002E188D /* Calender+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A912E22477A2AC002E188D /* Calender+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		C7683B5024766B8600BCB669 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		C7683B5124766B8600BCB669 /* DetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsViewController.xib; sourceTree = "<group>"; };
 		C7683B5424766FA800BCB669 /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
+		C7A912E22477A2AC002E188D /* Calender+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calender+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 		C7683B192476068500BCB669 /* Weather App */ = {
 			isa = PBXGroup;
 			children = (
+				C7A912E12477A23F002E188D /* +Extensions */,
 				C7683B5724767C4A00BCB669 /* Main */,
 				C7683B5624767C2500BCB669 /* Controllers */,
 				C7683B462476272D00BCB669 /* Views */,
@@ -153,6 +156,14 @@
 				C7683B1C2476068500BCB669 /* SceneDelegate.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		C7A912E12477A23F002E188D /* +Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7A912E22477A2AC002E188D /* Calender+Extension.swift */,
+			);
+			path = "+Extensions";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7683B5524766FA800BCB669 /* ConversionService.swift in Sources */,
+				C7A912E32477A2AC002E188D /* Calender+Extension.swift in Sources */,
 				C7683B492476274100BCB669 /* WeatherItemCell.swift in Sources */,
 				C7683B4224760CC400BCB669 /* MainTableViewController.swift in Sources */,
 				C7683B252476068500BCB669 /* Weather_App.xcdatamodeld in Sources */,

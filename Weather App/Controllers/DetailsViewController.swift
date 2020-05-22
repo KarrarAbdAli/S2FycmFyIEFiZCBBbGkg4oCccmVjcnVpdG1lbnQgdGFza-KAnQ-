@@ -29,6 +29,9 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var logoImageView: UIImageView!
     
+    @IBOutlet weak var sunriseLabel: UILabel!
+    @IBOutlet weak var sunsetLabel: UILabel!
+    
     convenience init() {
         self.init()
     }
@@ -60,21 +63,21 @@ class DetailsViewController: UIViewController {
         } else {
             weatherDescriptionLabel.text = "No Description Avilable"
         }
-         let main = weatherObject.main 
-            degreeLabel.text = getTempreture(forValue: main.temp)
-            pressureLabel.text = "\(main.pressure) hPa"
-            humidityLabel.text = "\(main.humidity)%"
-            minTempLabel.text = getTempreture(forValue: main.tempMin)
-            maxTempLabel.text = getTempreture(forValue: main.tempMax)
-            if let feelsLikeTemp = main.feelsLike {
-                feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
-            } else {feelsLikeLabel.text = getTempreture(forValue: main.temp)}
+        let main = weatherObject.main
+        degreeLabel.text = getTempreture(forValue: main.temp)
+        pressureLabel.text = "\(main.pressure) hPa"
+        humidityLabel.text = "\(main.humidity)%"
+        minTempLabel.text = getTempreture(forValue: main.tempMin)
+        maxTempLabel.text = getTempreture(forValue: main.tempMax)
+        if let feelsLikeTemp = main.feelsLike {
+            feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
+        } else {feelsLikeLabel.text = getTempreture(forValue: main.temp)}
         
         
         if let wind = weatherObject.wind {
             windSpeedLabel.text = "\(wind.speed) Km/hr"
         } else {
-             windSpeedLabel.text = "Not Avilable data"
+            windSpeedLabel.text = "Not Avilable data"
         }
         if let clouds = weatherObject.clouds {
             cloudsPercentageLabel.text = "\(clouds.all) %"
@@ -88,6 +91,11 @@ class DetailsViewController: UIViewController {
         
         logoImageView.isUserInteractionEnabled = true
         logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoImageViewDidClick)))
+        if let sys = weatherObject.sys {
+            sunriseLabel.text = getDateObject(timeStamp: sys.sunrise)
+            sunsetLabel.text = getDateObject(timeStamp: sys.sunset)
+        }
+        
     }
     
     
@@ -105,5 +113,13 @@ class DetailsViewController: UIViewController {
         if let url = URL(string: "https://openweathermap.org/") {
             UIApplication.shared.open(url)
         }
+    }
+    
+    
+    private func getDateObject(timeStamp: Int) -> String {
+        let date = Date(timeIntervalSince1970: Double(timeStamp))
+        var calendar = Calendar.current
+        calendar.timeZone = .current
+        return calendar.getTimeFromCalender(date: date)
     }
 }

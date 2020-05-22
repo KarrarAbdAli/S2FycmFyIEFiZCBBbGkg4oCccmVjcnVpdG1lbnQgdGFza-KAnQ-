@@ -143,11 +143,10 @@ class MainTableViewController: UITableViewController {
 
 extension MainTableViewController: searchDelegate {
     func didGetWeatherItem(weatherObject: WeatherObject) {
-        self.weatherItems.append(weatherObject)
+        self.updateOrAddWeatherItem(withId: weatherObject.id, weatherItem: weatherObject)
         tableView.reloadData()
         PersistentStore().save(weatherObject: weatherObject)
     }
-    
 }
 
 enum degreeStatus {

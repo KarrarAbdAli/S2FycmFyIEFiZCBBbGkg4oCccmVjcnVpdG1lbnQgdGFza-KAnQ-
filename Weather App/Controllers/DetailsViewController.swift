@@ -60,7 +60,7 @@ class DetailsViewController: UIViewController {
         } else {
             weatherDescriptionLabel.text = "No Description Avilable"
         }
-        if let main = weatherObject.main {
+         let main = weatherObject.main 
             degreeLabel.text = getTempreture(forValue: main.temp)
             pressureLabel.text = "\(main.pressure) hPa"
             humidityLabel.text = "\(main.humidity)%"
@@ -68,18 +68,24 @@ class DetailsViewController: UIViewController {
             maxTempLabel.text = getTempreture(forValue: main.tempMax)
             if let feelsLikeTemp = main.feelsLike {
                 feelsLikeLabel.text = getTempreture(forValue: feelsLikeTemp)
-                print(feelsLikeTemp)
-                print(getTempreture(forValue: feelsLikeTemp))
             } else {feelsLikeLabel.text = getTempreture(forValue: main.temp)}
+        
+        
+        if let wind = weatherObject.wind {
+            windSpeedLabel.text = "\(wind.speed) Km/hr"
+        } else {
+             windSpeedLabel.text = "Not Avilable data"
+        }
+        if let clouds = weatherObject.clouds {
+            cloudsPercentageLabel.text = "\(clouds.all) %"
+        } else {
+            cloudsPercentageLabel.text = "Not Avilable data"
         }
         
-        
-        
-        windSpeedLabel.text = "\(weatherObject.wind.speed) Km/hr"
         if let visibility = weatherObject.visibility  {
             visibilityLabel.text = "\(visibility/1000) Km"
         } else { visibilityLabel.text = "Data not Avilable" }
-        cloudsPercentageLabel.text = "\(weatherObject.clouds.all) %"
+        
         logoImageView.isUserInteractionEnabled = true
         logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoImageViewDidClick)))
     }

@@ -20,11 +20,7 @@ class NetworkServices {
         fetch(urlRequest: request, completion: completion)
     }
     
-    func freeFetchAPICall(completion: @escaping (Result<WeatherObject,Error>) -> Void){
-        var req = URLRequest(url: URL(string:"https://api.openweathermap.org/data/2.5/weather?q=London")!)
-        req.httpMethod = "GET"
-        fetch(urlRequest: req, completion: completion)
-    }
+
     
     private func fetch(urlRequest: URLRequest, completion: @escaping (Result<WeatherObject,Error>) -> Void){
         session.dataTask(with: urlRequest) { (data, response, error) in

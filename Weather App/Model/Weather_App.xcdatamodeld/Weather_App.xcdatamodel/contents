@@ -36,15 +36,15 @@
     </entity>
     <entity name="WeatherObjectCD" representedClassName="WeatherObjectCD" syncable="YES" codeGenerationType="class">
         <attribute name="base" optional="YES" attributeType="String"/>
-        <attribute name="cod" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="cod" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
         <attribute name="dt" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="timezone" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="timezone" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="visibility" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="clouds" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CloudsCD" inverseName="weatherObject" inverseEntity="CloudsCD"/>
         <relationship name="coord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoordCD" inverseName="weatherObject" inverseEntity="CoordCD"/>
-        <relationship name="main" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MainCD" inverseName="weatherObject" inverseEntity="MainCD"/>
+        <relationship name="main" maxCount="1" deletionRule="Nullify" destinationEntity="MainCD" inverseName="weatherObject" inverseEntity="MainCD"/>
         <relationship name="sys" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SysCD" inverseName="weatherObject" inverseEntity="SysCD"/>
         <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherCD" inverseName="weatherObject" inverseEntity="WeatherCD"/>
         <relationship name="wind" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WindCD" inverseName="weatherObject" inverseEntity="WindCD"/>

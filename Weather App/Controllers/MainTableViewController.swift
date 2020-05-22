@@ -36,8 +36,6 @@ class MainTableViewController: UITableViewController {
         
         // Loding Core Data context
         loadData()
-        //Fetching free data to start the app with
-        fetchFreeData()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as? SearchingTableViewController
@@ -63,13 +61,13 @@ class MainTableViewController: UITableViewController {
         cell.cityLabel.text = weatherItems[indexPath.row].name
         var tempreture: Int = 0
         
-        if let main = weatherItems[indexPath.row].main {
+         let main = weatherItems[indexPath.row].main 
             if status == .f {
                 tempreture = ConversionService.getTempretureInF(main.temp)
             } else {
                 tempreture = ConversionService.getTempretureInC(main.temp)
             }
-        }
+        
         cell.degreeLable.text = String((tempreture)) + "°" // kelven to C or F
         if let weather = weatherItems[indexPath.row].weather{
             cell.iconImageView.image = UIImage(named: weather[0].icon)
@@ -115,14 +113,6 @@ class MainTableViewController: UITableViewController {
         }
     }
     
-    private func fetchFreeData(){
-        NetworkServices().freeFetchAPICall { result in
-            switch result {
-            case.success(let object): self.updateOrAddWeatherItem(withId: object.id, weatherItem: object)
-            case.failure(let error): print(error)
-            }
-        }
-    }
     
     @IBAction func cDegreeChoosen(_ sender: Any) {
         status = .c

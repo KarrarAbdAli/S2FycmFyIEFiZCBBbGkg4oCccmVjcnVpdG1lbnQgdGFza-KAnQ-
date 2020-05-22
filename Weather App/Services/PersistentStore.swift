@@ -153,7 +153,7 @@ class PersistentStore: Persistent{
         let objc = WeatherObjectCD(context: context)
         objc.base = weatherObject.base
         objc.cod = Int32(weatherObject.cod)
-        objc.dt = Int32(weatherObject.dt)
+        objc.dt = Int32(weatherObject.dt ?? 0)
         objc.id = Int32(weatherObject.id)
         objc.name = weatherObject.name
         objc.timezone = Int32(weatherObject.timezone)
@@ -162,15 +162,20 @@ class PersistentStore: Persistent{
         }
         
         let windCD = WindCD(context: context)
-        windCD.speed = weatherObject.wind.speed
-        if let deg = weatherObject.wind.deg {
-            windCD.deg = Int32(deg)
+        if let wind = weatherObject.wind {
+            windCD.speed = wind.speed
+            if let deg = wind.deg {
+                windCD.deg = Int32(deg)
+            }
+            objc.wind = windCD
         }
-        objc.wind = windCD
         
         let cloudsCD = CloudsCD(context: context)
-        cloudsCD.all = Int32(weatherObject.clouds.all)
-        objc.clouds = cloudsCD
+        if let clouds = weatherObject.clouds {
+            cloudsCD.all = Int32(clouds.all)
+            objc.clouds = cloudsCD
+        }
+        
         
         let coordCD = CoordCD(context: context)
         if let coord = weatherObject.coord {
@@ -180,28 +185,29 @@ class PersistentStore: Persistent{
         objc.coord = coordCD
         
         let mainCD = MainCD(context: context)
-        if let main = weatherObject.main {
-            mainCD.humidity = Int32(main.humidity)
-            mainCD.pressure = Int32(main.pressure)
-            mainCD.temp = main.temp
-            mainCD.tempMax = main.tempMax
-            mainCD.tempMin = main.tempMin
-            objc.main = mainCD
-        } else {
-            objc.main = nil
-        }
+        let main = weatherObject.main
+        mainCD.humidity = Int32(main.humidity)
+        mainCD.pressure = Int32(main.pressure)
+        mainCD.feelsLike = main.feelsLike ?? main.temp
+        mainCD.temp = main.temp
+        mainCD.tempMax = main.tempMax
+        mainCD.tempMin = main.tempMin
+        objc.main = mainCD
+        
         
         
         let sysCD = SysCD(context: context)
-        sysCD.country = weatherObject.sys.country
-        sysCD.id = Int32(weatherObject.sys.id)
-        sysCD.sunset = Int32(weatherObject.sys.sunset)
-        sysCD.sunrise = Int32(weatherObject.sys.sunrise)
-        sysCD.type = Int32(weatherObject.sys.type)
-        if let message = weatherObject.sys.message {
-            sysCD.message = message
+        if let sys = weatherObject.sys {
+            sysCD.country = sys.country
+            sysCD.id = Int32(sys.id)
+            sysCD.sunset = Int32(sys.sunset)
+            sysCD.sunrise = Int32(sys.sunrise)
+            sysCD.type = Int32(sys.type)
+            if let message = sys.message {
+                sysCD.message = message
+            }
+            objc.sys = sysCD
         }
-        objc.sys = sysCD
         
         let weatherCD = WeatherCD(context: context)
         if let weather = weatherObject.weather {
